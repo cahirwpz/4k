@@ -1,5 +1,6 @@
 DEBUG   equ     1
 MUSIC   equ     1
+TOPAZ   equ     1
 
 CX      equ     $81
 CY      equ     $2c

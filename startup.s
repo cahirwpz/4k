@@ -7,11 +7,13 @@
         include 'exec/nodes.i'
         include 'dos/dosextens.i'
         include 'graphics/gfxbase.i'
+        include 'graphics/text.i'
 
         include 'custom.i'
         include 'env.i'
 
         xdef    IntVecBase
+        xdef    TopazCharData
 
         xref    wait_vbl
         xref    _main
@@ -83,8 +85,18 @@ _start:
         JSRLIB  Supervisor
         move.l  d0,IntVecBase(a4)
 
-        ; Intercept the view of AmigaOS
+        ; Yeah... we can get GFXBase without opening graphics.library
         move.l  GFXBase(a6),a6
+
+        ifne    TOPAZ
+        ; Get character data from 'topaz.font'
+        lea.l   TopazTextAttr(a4),a0
+        JSRLIB  OpenFont
+        move.l  d0,a0
+        move.l  tf_CharData(a0),TopazCharData(a4)
+        endc
+
+        ; Intercept the view of AmigaOS
         move.l  gb_ActiView(a6),-(sp)
         suba.l  a1,a1
         JSRLIB  LoadView
@@ -169,5 +181,18 @@ UAEDebug:
         section bss_f, bss, fast
 
 IntVecBase      ds.l    1
+TopazCharData:  ds.l    1
 
-; vim: ts=8 sw=8 filetype=asm68k
+        section data_f, data, fast
+
+        ifne    TOPAZ
+TopazTextAttr:
+        dc.l    .topaz
+        dc.w    8
+        dc.b    0, 0
+
+.topaz
+        dc.b    'topaz.font', 0
+        endc
+
+; vim: ts=8 sw=8 et filetype=asm68k
