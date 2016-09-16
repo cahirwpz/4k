@@ -67,11 +67,11 @@ _start:
 
 .chkcpu ; Check for 68040 with FPU and 68881 emulation
         move.w  AttnFlags(a6),d0
-        btst.b  #AFB_68040,d0
+        btst    #AFB_68040,d0
         beq.s   .badcpu
-        btst.b  #AFB_FPU40,d0
+        btst    #AFB_FPU40,d0
         beq.s   .badcpu
-        btst.b  #AFB_68881,d0
+        btst    #AFB_68881,d0
         bne.s   .main
 
 .badcpu moveq.l #20,d4 

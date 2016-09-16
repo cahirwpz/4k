@@ -1,5 +1,5 @@
 AS	= vasm -quiet 
-ASFLAGS = -sdreg=4 -x -Fhunk -m68040 -phxass -opt-pea -linedebug -showcrit
+ASFLAGS = -sdreg=4 -x -Fhunk -m68040 -opt-allbra -opt-pea -linedebug -showcrit
 
 LD	= vlink
 LDFLAGS	= -sc -sd -S -s -bamigahunk
@@ -22,17 +22,20 @@ endif
 .deps/%.P: %.s
 	@echo "DEP  $<"
 	@mkdir -p .deps
-	$(AS) $(ASFLAGS) -depend=make -o $(<:%.s=%.o) $< > $@
+	$(AS) $(ASFLAGS) -phxass -depend=make -o $(<:%.s=%.o) $< > $@
 
 %.o: %.s .deps/%.P
 	@echo "AS   $<"
 	$(AS) $(ASFLAGS) -o $@ $<
+
+main.o: ASFLAGS += -phxass
 
 %.packed: %
 	@echo "PACK $@"
 	Shrinkler $< $@ >/dev/null
 
 clean:
+	@rm -v -r .deps
 	@rm -v -f *.o $(BINARY) $(BINARY).packed
 	@rm -v -f *~
 
