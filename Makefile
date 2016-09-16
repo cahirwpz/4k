@@ -4,17 +4,29 @@ ASFLAGS = -sdreg=4 -x -Fhunk -m68040 -phxass -opt-pea -linedebug -showcrit
 LD	= vlink
 LDFLAGS	= -sc -sd -S -s -bamigahunk
 
+OBJS	= startup.o main.o utils.o c2p.o cinter.o
 BINARY	= intro4k.exe
 
-all:	$(BINARY).packed
+all:	$(BINARY)
 
-%.o: %.s
-	@echo "AS   $<"
-	$(AS) $(ASFLAGS) -o $@ $<
-
-$(BINARY): startup.o main.o utils.o c2p.o cinter.o
+$(BINARY): $(OBJS)
 	@echo "LINK $@"
 	$(LD) $(LDFLAGS) -o $@ $^
+
+DEPFILES := $(patsubst %.o,.deps/%.P,$(OBJS))
+
+ifeq ($(words $(findstring $(MAKECMDGOALS), clean)), 0)
+  -include $(DEPFILES)
+endif
+
+.deps/%.P: %.s
+	@echo "DEP  $<"
+	@mkdir -p .deps
+	$(AS) $(ASFLAGS) -depend=make -o $(<:%.s=%.o) $< > $@
+
+%.o: %.s .deps/%.P
+	@echo "AS   $<"
+	$(AS) $(ASFLAGS) -o $@ $<
 
 %.packed: %
 	@echo "PACK $@"
