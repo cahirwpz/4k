@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess
+import signal
+import sys
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='Run binary in FS-UAE.')
+    parser.add_argument('binary', metavar='BINARY', type=str,
+                        help='AmigaHunk executable file.')
+
+    args = parser.parse_args()
+
+    with open("s/startup-sequence", "w") as ss:
+        print("C:SetPatch", file=ss)
+        print("echo " + args.binary, file=ss)
+        print(args.binary, file=ss)
+        print("ExitUAE", file=ss)
+
+    uae = subprocess.Popen(["fs-uae"], stdout=None, stderr=None)
+    try:
+        uae.wait()
+    except KeyboardInterrupt:
+        uae.send_signal(signal.SIGINT)
+

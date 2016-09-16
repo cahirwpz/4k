@@ -1,0 +1,10 @@
+.DS_Store
+*~
+*.pyc
+*.o
+*.a
+*.exe*
+
+c
+libs
+s
