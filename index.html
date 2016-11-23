@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>4096B – restraint or challenge?</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# 4096B – restraint or challenge?
+
+Krystian Bacławski
+
+aka
+
+Cahir/Ghostown^Whelpz
+
+---
+
+## Rhodium by Alcatraz
+
+.center[
+<iframe width="720" height="404" src="https://www.youtube.com/embed/YK7fbtQw3ZU"
+  frameborder="0" allowfullscreen />
+]
+
+---
+
+## Nordic Cathedral by Alcatraz
+
+.center[
+<iframe width="720" height="404" src="https://www.youtube.com/embed/0Fo3I6SmVzM"
+  frameborder="0" allowfullscreen />
+]
+
+---
+
+## ORP Riverwash by KK/DMA
+
+.center[
+<iframe width="720" height="404" src="https://www.youtube.com/embed/1p5S3YxzORg"
+  frameborder="0" allowfullscreen />
+]
+
+---
+
+## What do you need to make one?
+
+* effective way to compress code and data
+* music – instruments, notes and player
+* textures and fonts
+* 3d object meshes
+* ... and **effects**!
+
+---
+
+## Code compression
+
+State of the art compression is offered by [Crinkler](http://crinkler.net) from
+Blueberry/Loonies
+
+1. Optimizing linker:
+  * separate code and data compression
+  * dynamic linking by hashes not strings
+  * executable layout optimizations
+2. Arithmetic coding with context modelling
+  * context-modeler evaluates the probability for the next symbol
+  * uses up to 8 last symbols to predict
+3. Extremely small decompressor (~220 bytes)
+
+More details here: [Crinkler secrets, 4k intro executable compressor at its best](http://code4k.blogspot.com/2010/12/crinkler-secrets-4k-intro-executable.html)
+
+---
+
+## Interpreters?
+
+1. Stack machine
+2. Forth or Lisp
+
+---
+
+## Sound and music
+
+1. Synthetizers:
+  * oscillators (sine, triangle, sawtooth, rectangle) and noise
+  * frequency or amplitude modulation
+  * composition
+  * envelope (ADSR or simpler)
+2. Effects:
+  * high or low pass filter with resonance
+  * echo
+  * chords
+  * harmonics
+3. Notes:
+  * trackers & midi
+
+---
+
+## Textures and images
+
+---
+
+class: center, middle
+
+# Where to find more information?
+
+# [in4k.github.io](https://in4k.github.io)
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
